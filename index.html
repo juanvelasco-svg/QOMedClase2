@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPCH - Efectos Electrónicos, Resonancia y Estereoquímica | Química Orgánica</title>
+<style>
+    :root {
+        --upch-gold: #D4AF37;
+        --upch-dark: #1a1a2e;
+        --upch-blue: #16213e;
+        --upch-light: #0f3460;
+        --accent: #e94560;
+        --text: #2c3e50;
+        --white: #ffffff;
+        --sand: #f4e9c1;
+        --shadow: rgba(0, 0, 0, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== SANGRÍA DE VIÑETAS Y LISTAS ===== */
+    ul:not(.map-tree), ol {
+        padding-left: 2.4rem;
+        margin: 0.5rem 0 1rem;
+    }
+    ul:not(.map-tree) { list-style: none; } /* evita doble marcador (ya usas • y ✓ a mano) */
+    ul:not(.map-tree) li, ol li { margin: 0.45rem 0; }
+
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+    header { background: linear-gradient(135deg, var(--upch-dark) 0%, var(--upch-blue) 100%); color: var(--white); padding: 2rem; text-align: center; box-shadow: 0 6px 20px var(--shadow); position: relative; overflow: hidden; border-bottom: 5px solid var(--upch-gold); }
+    .logo-container { display: flex; align-items: center; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .logo-upch { width: 120px; height: auto; background: var(--white); border-radius: 50%; padding: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; text-shadow: 3px 3px 6px rgba(0,0,0,0.3); color: var(--upch-gold); }
+    .subtitle { font-size: 1.2rem; opacity: 0.95; font-weight: 300; }
+    .nav-container { background: var(--upch-blue); padding: 1rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px var(--shadow); }
+    .nav-buttons { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.8rem; max-width: 1400px; margin: 0 auto; }
+    .nav-btn { background: var(--white); color: var(--upch-dark); border: none; padding: 0.8rem 1.5rem; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
+    .nav-btn:hover, .nav-btn.active { background: var(--upch-gold); color: var(--upch-dark); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(212,175,55,0.4); }
+    .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+    .section { display: none; animation: fadeIn 0.5s ease; }
+    .section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .card { background: var(--white); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 8px 24px var(--shadow); border-left: 6px solid var(--upch-gold); transition: transform 0.3s ease; }
+    .card:hover { transform: translateY(-5px); }
+    h2 { color: var(--upch-blue); margin-bottom: 1.5rem; padding-bottom: 0.8rem; border-bottom: 3px solid var(--upch-gold); display: flex; align-items: center; gap: 0.8rem; font-size: 2rem; }
+    h3 { color: var(--upch-light); margin: 1.5rem 0 1rem; font-size: 1.5rem; }
+    .molecule-img { max-width: 100%; height: auto; border-radius: 12px; margin: 1rem 0; box-shadow: 0 4px 12px var(--shadow); }
+    .img-container { text-align: center; margin: 2rem 0; }
+    .calculator { background: linear-gradient(135deg, #fff9f5 0%, #fff0e8 100%); border: 3px solid var(--upch-gold); border-radius: 16px; padding: 2rem; margin: 2rem 0; }
+    .calc-title { color: var(--upch-blue); font-size: 1.6rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+    .calc-input-group { margin: 1rem 0; }
+    .calc-input-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--upch-dark); }
+    .calc-input-group input, .calc-input-group select { width: 100%; padding: 0.8rem; border: 2px solid var(--sand); border-radius: 8px; font-size: 1rem; transition: border-color 0.3s; }
+    .calc-input-group input:focus, .calc-input-group select:focus { outline: none; border-color: var(--upch-gold); }
+    .calc-button { background: var(--upch-blue); color: var(--white); border: none; padding: 1rem 2rem; border-radius: 30px; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-top: 1rem; transition: all 0.3s ease; box-shadow: 0 4px 12px var(--shadow); }
+    .calc-button:hover { background: var(--upch-gold); color: var(--upch-dark); transform: translateY(-2px); }
+    .calc-result { background: var(--white); border-left: 5px solid var(--accent); padding: 1.5rem; margin-top: 1.5rem; border-radius: 8px; font-size: 1.2rem; display: none; }
+    .calc-result.show { display: block; animation: slideIn 0.5s ease; }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+    table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px var(--shadow); }
+    th { background: linear-gradient(135deg, var(--upch-blue) 0%, var(--upch-light) 100%); color: var(--white); padding: 1.2rem; text-align: left; font-weight: 600; }
+    td { padding: 1rem 1.2rem; border-bottom: 1px solid #eee; transition: background 0.3s; }
+    tr:hover td { background: #f8fff0; }
+    .info-box { background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border-left: 5px solid #2196f3; padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 12px 12px 0; }
+    .tip-box { background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%); border-left: 5px solid #ffc107; padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 12px 12px 0; }
+    .bio-box { background: linear-gradient(135deg, #d1ecf1 0%, #a8dadc 100%); border-left: 5px solid #17a2b8; padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 12px 12px 0; }
+    .pharma-box { background: linear-gradient(135deg, #f8d7da 0%, #f1aeb5 100%); border-left: 5px solid #dc3545; padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 12px 12px 0; }
+    .problem-box { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left: 5px solid #28a745; padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 12px 12px 0; }
+    details.solution { margin-top: 1rem; background: #f8f9fa; border: 2px solid var(--upch-light); border-radius: 10px; padding: 0.8rem 1.2rem; }
+    details.solution summary { cursor: pointer; font-weight: 700; color: var(--upch-light); }
+    details.solution[open] summary { margin-bottom: 0.8rem; border-bottom: 1px dashed var(--upch-light); padding-bottom: .4rem; }
+    .mnemonic-card { background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%); border: 3px solid var(--accent); border-radius: 12px; padding: 1.5rem; margin: 1rem 0; position: relative; overflow: hidden; }
+    .mnemonic-title { color: var(--accent); font-weight: 700; margin-bottom: 0.8rem; font-size: 1.2rem; }
+    .glossary-term { background: var(--white); border: 2px solid var(--upch-gold); border-radius: 8px; padding: 1rem; margin: 0.8rem 0; cursor: pointer; transition: all 0.3s; }
+    .glossary-term:hover { background: #fff9e6; transform: translateX(5px); }
+    .glossary-definition { display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--upch-gold); }
+    .glossary-definition.show { display: block; animation: fadeIn 0.3s ease; }
+    .error-card { background: linear-gradient(135deg, #ffe6e6 0%, #ffb3b3 100%); border-left: 5px solid #dc3545; padding: 1.5rem; margin: 1rem 0; border-radius: 0 12px 12px 0; }
+    .error-title { color: #dc3545; font-weight: 700; margin-bottom: 0.5rem; }
+    .correction { background: #d4edda; border-left: 3px solid #28a745; padding: 1rem; margin-top: 1rem; border-radius: 0 8px 8px 0; }
+    .quiz-container { background: linear-gradient(135deg, var(--upch-blue) 0%, var(--upch-light) 100%); color: var(--white); border-radius: 16px; padding: 2rem; margin: 2rem 0; }
+    .quiz-question { font-size: 1.4rem; margin-bottom: 1.5rem; font-weight: 600; }
+    .quiz-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+    .quiz-option { background: var(--white); color: var(--text); border: 3px solid transparent; padding: 1.2rem; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; font-weight: 500; }
+    .quiz-option:hover:not(:disabled) { border-color: var(--upch-gold); transform: translateY(-3px); }
+    .quiz-option:disabled { cursor: not-allowed; opacity: 0.95; }
+    .quiz-option.correct { background: #4caf50; color: white; border-color: #2e7d32; }
+    .quiz-option.incorrect { background: #f44336; color: white; border-color: #c62828; }
+    .quiz-progress { max-width: 720px; margin: 0 auto 1rem; }
+    .quiz-progress-bar-bg { height: 10px; background: #e0e0e0; border-radius: 5px; overflow: hidden; }
+    .quiz-progress-bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--upch-gold), var(--accent)); transition: width 0.4s; }
+    .quiz-stats { display: flex; gap: 0.8rem; flex-wrap: wrap; justify-content: center; margin: 1rem 0; }
+    .quiz-stat { padding: 0.6rem 1.2rem; border-radius: 20px; font-weight: 700; color: #fff; font-size: 0.95rem; background: var(--upch-light); }
+    .footer { background: var(--upch-dark); color: var(--white); text-align: center; padding: 2.5rem; margin-top: 3rem; border-top: 5px solid var(--upch-gold); }
+    .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1.5rem 0; border-radius: 12px; box-shadow: 0 4px 12px var(--shadow); }
+    .table-responsive table { min-width: 600px; width: 100%; margin: 0; }
+    .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .tab { background: var(--sand); border: none; padding: 0.8rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+    .tab.active { background: var(--upch-gold); color: var(--upch-dark); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+    .fc-stats { display: flex; gap: 0.8rem; flex-wrap: wrap; justify-content: center; margin: 1rem 0; }
+    .fc-stat { padding: 0.6rem 1.2rem; border-radius: 20px; font-weight: 700; color: #fff; font-size: 0.95rem; }
+    .fc-stat.good { background: #28a745; } .fc-stat.bad { background: #dc3545; } .fc-stat.pending { background: #6c757d; } .fc-stat.total { background: var(--upch-light); }
+    .fc-progress { height: 10px; background: #e0e0e0; border-radius: 5px; overflow: hidden; max-width: 720px; margin: 0 auto 1.5rem; }
+    .fc-progress-bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--upch-gold), var(--accent)); transition: width 0.4s; }
+    .flashcard-scene { perspective: 1400px; max-width: 720px; height: 320px; margin: 0 auto 1.5rem; }
+    .flashcard { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.6s; cursor: pointer; }
+    .flashcard.flipped { transform: rotateY(180deg); }
+    .fc-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; overflow: auto; box-shadow: 0 8px 24px var(--shadow); font-size: 1.15rem; }
+    .fc-front { background: linear-gradient(135deg, var(--upch-blue), var(--upch-light)); color: #fff; border: 3px solid var(--upch-gold); }
+    .fc-back { background: linear-gradient(135deg, #fff9e6, var(--sand)); color: var(--text); border: 3px solid var(--upch-gold); transform: rotateY(180deg); }
+    .fc-label { font-size: 0.85rem; letter-spacing: 2px; font-weight: 800; opacity: 0.8; margin-bottom: 1rem; }
+    .fc-hint { margin-top: 1rem; font-size: 0.85rem; opacity: 0.7; font-style: italic; }
+    .fc-controls { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap; }
+    .fc-btn { border: none; padding: 0.9rem 2rem; border-radius: 30px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.3s; color: #fff; }
+    .fc-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .fc-btn.good { background: #28a745; } .fc-btn.bad { background: #dc3545; }
+    .fc-btn:not(:disabled):hover { transform: translateY(-3px); }
+    .fc-link { background: none; border: none; color: #6c757d; text-decoration: underline; cursor: pointer; font-size: 0.85rem; margin-top: 1rem; }
+
+    /* ===== MAPA CONCEPTUAL (aislado de la sangría global) ===== */
+    .map-container { overflow-x: auto; padding: 1rem 0; }
+    .map-tree, .map-tree ul { list-style: none; margin: 0; padding-left: 0; }
+    .map-tree ul { display: none; padding-left: 1.6rem; margin: 0.6rem 0 0; border-left: 3px solid var(--upch-gold); }
+    .map-tree li.open > ul { display: block; animation: fadeIn 0.4s ease; }
+    .map-tree li { margin: 0.4rem 0; }
+    .map-node { display: inline-block; background: var(--upch-blue); color: #fff; padding: 0.6rem 1.1rem; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+    .map-node:hover { background: var(--upch-gold); color: var(--upch-dark); transform: translateX(4px); }
+    .map-node.root { background: var(--accent); font-size: 1.15rem; }
+    .map-node.branch { background: var(--upch-light); }
+    .map-leaf { display: inline-block; background: var(--sand); color: var(--text); padding: 0.45rem 0.9rem; border-radius: 8px; font-size: 0.95rem; border: 2px solid var(--upch-gold); }
+    li.has-children > .map-node::before { content: '▶ '; font-size: 0.8em; }
+    li.has-children.open > .map-node::before { content: '▼ '; font-size: 0.8em; }
+
+    @media (max-width: 768px) {
+        h1 { font-size: 1.8rem; } h2 { font-size: 1.5rem; } h3 { font-size: 1.2rem; }
+        .logo-container { flex-direction: column; gap: 1rem; } .logo-upch { width: 80px; }
+        .container { padding: 1rem; } .card { padding: 1.5rem; }
+        .nav-buttons { gap: 0.5rem; } .nav-btn { padding: 0.6rem 1rem; font-size: 0.85rem; }
+        .quiz-options { grid-template-columns: 1fr; }
+        .tabs { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.5rem; }
+        .tab { flex-shrink: 0; padding: 0.6rem 1rem; font-size: 0.9rem; }
+        .flashcard-scene { height: 360px; } .fc-face { font-size: 1rem; padding: 1rem; }
+    }
+    @media (max-width: 480px) {
+        h1 { font-size: 1.4rem; } .subtitle { font-size: 0.9rem; } header { padding: 1rem; }
+        .card { padding: 1rem; } .nav-btn { padding: 0.5rem 0.7rem; font-size: 0.8rem; }
+    }
+</style>
+</head>
+<body>
+<header>
+    <div class="logo-container">
+        <img src="logo-upch.png" alt="Logo UPCH" class="logo-upch">
+        <div>
+            <h1>Universidad Peruana Cayetano Heredia</h1>
+            <p class="subtitle">Facultad de Medicina • Química Orgánica</p>
+            <p class="subtitle">Capítulo 2: Efectos Electrónicos, Resonancia y Estereoquímica</p>
+        </div>
+    </div>
+</header>
+
+<nav class="nav-container">
+    <div class="nav-buttons">
+        <button class="nav-btn active" onclick="showSection('inicio', this)">🏠 Inicio</button>
+        <button class="nav-btn" onclick="showSection('conceptos', this)">📚 Conceptos</button>
+        <button class="nav-btn" onclick="showSection('mapa', this)">🗺️ Mapa Conceptual</button>
+        <button class="nav-btn" onclick="showSection('flashcards', this)">🃏 Flashcards</button>
+        <button class="nav-btn" onclick="showSection('calculadoras', this)">🧮 Herramientas</button>
+        <button class="nav-btn" onclick="showSection('aplicaciones', this)">🏥 Aplicaciones</button>
+        <button class="nav-btn" onclick="showSection('mnemotecnias', this)">🧠 Nemotecnias</button>
+        <button class="nav-btn" onclick="showSection('glosario', this)">📖 Glosario</button>
+        <button class="nav-btn" onclick="showSection('errores', this)">⚠️ Errores Comunes</button>
+        <button class="nav-btn" onclick="showSection('bibliografia', this)">📚 Bibliografía</button>
+        <button class="nav-btn" onclick="showSection('quiz', this)">🎯 Quiz</button>
+    </div>
+</nav>
+
+<div class="container">
+
+<!-- ============ INICIO ============ -->
+<section id="inicio" class="section active">
+    <div class="card">
+        <h2>🎯 Objetivos de la Sesión</h2>
+        <div class="info-box">
+            <ul style="font-size: 1.1rem; line-height: 2;">
+                <li>✓ Identificar estructuralmente los sistemas π deslocalizados</li>
+                <li>✓ Identificar los efectos electrónicos: inductivo y mesomérico</li>
+                <li>✓ Reconocer los sistemas de resonancia estructural</li>
+                <li>✓ Identificar los tipos de isomería</li>
+                <li>✓ Identificar los compuestos quirales y la actividad óptica</li>
+            </ul>
+        </div>
+        <h3>🩺 Importancia para la Medicina</h3>
+        <div class="bio-box">
+            <div><strong>¿Por qué es fundamental este capítulo para un futuro médico?</strong>
+                <ul style="margin-top: 1rem;">
+                    <li>• La <strong>quiralidad</strong> determina que dos enantiómeros de un fármaco tengan efectos distintos (talidomida, ibuprofeno, albuterol).</li>
+                    <li>• La <strong>resonancia</strong> estabiliza fármacos y biomoléculas (anillo aromático de la aspirina, enlace peptídico, bases del ADN).</li>
+                    <li>• Los <strong>efectos electrónicos</strong> explican la acidez de los fármacos y su ionización en el organismo (absorción, distribución).</li>
+                    <li>• La <strong>actividad óptica</strong> es una herramienta de control de calidad farmacéutica (rotación específica en el polarímetro).</li>
+                </ul>
+            </div>
+        </div>
+        <div class="tip-box"><strong>📌 Ruta de estudio sugerida:</strong> Conceptos → Mapa conceptual → Flashcards → Herramientas → Aplicaciones → Quiz (10 preguntas aleatorias de una base de 30; cada ciclo recarga preguntas nuevas).</div>
+    </div>
+</section>
+
+<!-- ============ CONCEPTOS ============ -->
+<section id="conceptos" class="section">
+    <div class="card">
+        <h2>📚 Conceptos</h2>
+        <div id="conceptos-tabs" class="tab-group">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('conceptos-tabs','sub-pi', this)">🌀 Sistemas π Deslocalizados</button>
+                <button class="tab" onclick="showTab('conceptos-tabs','sub-efectos', this)">⚡ Efectos Electrónicos</button>
+                <button class="tab" onclick="showTab('conceptos-tabs','sub-resonancia', this)">🔁 Resonancia</button>
+                <button class="tab" onclick="showTab('conceptos-tabs','sub-isomeria', this)">🧬 Isomería</button>
+                <button class="tab" onclick="showTab('conceptos-tabs','sub-quiralidad', this)">🌀 Quiralidad y Actividad Óptica</button>
+            </div>
+
+            <!-- SUB: SISTEMAS PI -->
+            <div id="sub-pi" class="tab-content active">
+                <h3>🌀 Enlace π Deslocalizado</h3>
+                <div class="info-box"><strong>Requisito indispensable:</strong> más de dos orbitales “p” <strong>contiguos y coplanares</strong> que se solapan lateralmente formando nubes π extendidas.</div>
+                <div class="img-container">
+                    <img src="butadieno-deslocalizacion.png" alt="1,3-butadieno con orbitales p contiguos y coplanares" class="molecule-img">
+                    <p style="font-style: italic; color:#666;">1,3‑butadieno: los 4 orbitales p contiguos y coplanares forman un sistema π deslocalizado.</p>
+                </div>
+                <h3>Caso del 1,3‑butadieno: ¿hay deslocalización?</h3>
+                <div class="tip-box"><strong>¡Sí!</strong> Los enlaces C–C centrales <strong>no son simples ni dobles sino intermedios</strong>. La deslocalización aumenta la estabilidad de la especie química.</div>
+                <h3>Caso del benceno</h3>
+                <p>Cada vértice es un C unido a 3 átomos (2 C + 1 H) → <strong>hibridación sp²</strong> con 1 orbital “p” sin hibridar. Los orbitales p coplanares se solapan creando <strong>dos nubes π deslocalizadas</strong>: una sobre y otra debajo del plano de los átomos.</p>
+                <div class="img-container">
+                    <img src="benceno-resonancia.png" alt="Resonancia del benceno: estructuras de Kekulé e híbrido" class="molecule-img">
+                    <p style="font-style: italic; color:#666;">Las dos estructuras de Kekulé y el híbrido de resonancia (círculo punteado).</p>
+                </div>
+                <h3>Caso del ciclooctatetraeno: ¡diferente!</h3>
+                <div class="error-card"><div class="error-title">⚠️ No hay deslocalización</div>
+                    Para no violentar los ángulos de enlace, el ciclooctatetraeno adopta una <strong>estructura NO planar</strong>. La pérdida de coplanaridad impide el solapamiento efectivo de los orbitales p → sin enlace π deslocalizado.</div>
+                <h3>Consecuencias de la deslocalización</h3>
+                <div class="table-responsive"><table>
+                    <tr><th>Consecuencia</th><th>Explicación</th><th>Ejemplo</th></tr>
+                    <tr><td><strong>Mayor estabilidad</strong></td><td>Disminuye reactividad y/o desplaza equilibrios</td><td>Benceno menos reactivo que un alqueno</td></tr>
+                    <tr><td><strong>Orden de enlace intermedio</strong></td><td>Fortaleza y longitud de enlace con valores intermedios</td><td>C–C del benceno: 139 pm (entre 154 y 134 pm)</td></tr>
+                </table></div>
+                <div class="table-responsive"><table>
+                    <tr><th>Molécula</th><th>¿Enlace π deslocalizado?</th><th>¿Por qué?</th></tr>
+                    <tr><td>Propeno (CH₂=CH–CH₃)</td><td>No</td><td>Solo 2 orbitales p (un doble enlace aislado); el CH₃ es sp³</td></tr>
+                    <tr><td>1,3‑butadieno</td><td>Sí</td><td>4 orbitales p contiguos y coplanares</td></tr>
+                    <tr><td>Benceno</td><td>Sí</td><td>6 orbitales p coplanares en anillo plano</td></tr>
+                    <tr><td>Ciclooctatetraeno</td><td>No</td><td>No es planar → no hay coplanaridad de orbitales p</td></tr>
+                </table></div>
+            </div>
+
+            <!-- SUB: EFECTOS -->
+            <div id="sub-efectos" class="tab-content">
+                <h3>⚡ Efectos Electrónicos en Moléculas Orgánicas</h3>
+                <p>Desplazamiento de la densidad electrónica debido a: diferencia de electronegatividad, deslocalización y polaridad del medio.</p>
+                <h3>Efecto Inductivo (I): enlaces σ</h3>
+                <div class="info-box">Desplazamiento de la densidad electrónica del enlace <strong>sigma (σ)</strong> motivado fundamentalmente por la diferencia de electronegatividad.
+                <ul>
+                    <li>• <strong>–I:</strong> disminuye la densidad electrónica sobre un átomo (grupos electronegativos: Cl, F, OH…).</li>
+                    <li>• <strong>+I:</strong> aumenta la densidad electrónica (grupos alquilo).</li>
+                </ul></div>
+                <div class="img-container">
+                    <img src="efecto-inductivo.png" alt="Efecto inductivo -I en CH3-Cl" class="molecule-img">
+                    <p style="font-style: italic; color:#666;">En CH₃–Cl el cloro atrae la densidad σ: C queda δ+ y Cl δ− (efecto –I, estático Ie).</p>
+                </div>
+                <div class="tip-box"><strong>Efecto inductivo estático (Ie) y dinámico (Id):</strong> el Ie se debe a la Δ de electronegatividad; un <strong>medio polar</strong> lo incrementa (Id).</div>
+                <h3>Orden de efecto donador (+I) de los alquilos</h3>
+                <div class="info-box">Densidad electrónica: <strong>3° &gt; 2° &gt; 1° &gt; CH₃</strong></div>
+                <h3>Atracción de electrones según hibridación (% carácter s)</h3>
+                <div class="table-responsive"><table>
+                    <tr><th>Hibridación</th><th>% orbital s</th><th>Atracción por los electrones</th></tr>
+                    <tr><td>sp³</td><td>25%</td><td>Menor</td></tr>
+                    <tr><td>sp²</td><td>33%</td><td>Intermedia</td></tr>
+                    <tr><td>sp</td><td>50%</td><td>Mayor (el orbital s es más interno)</td></tr>
+                </table></div>
+                <h3>Efecto Mesomérico (M): enlaces π</h3>
+                <div class="pharma-box">Desplazamiento de la densidad electrónica <strong>π</strong> tendiente a <strong>contrarrestar las cargas</strong> presentes en la molécula. Ej.: en el cloruro de vinilo (H₂C=CH–Cl) y el alcohol vinílico (H₂C=CH–OH), el heteroátomo dona su par libre al sistema π.</div>
+                <h3>Efecto Electromérico (E) y relación general</h3>
+                <div class="info-box">Un medio polar favorece un mayor desplazamiento π: <strong>efecto electromérico (E)</strong>. Como los electrones π son más móviles que los σ, siempre se cumple: <strong>M + E &gt; Ie + Id</strong>.</div>
+            </div>
+
+            <!-- SUB: RESONANCIA -->
+            <div id="sub-resonancia" class="tab-content">
+                <h3>🔁 Resonancia (Teoría del Enlace de Valencia)</h3>
+                <div class="info-box">Método alternativo de la teoría <strong>Enlace‑Valencia</strong> para describir sustancias con enlace π deslocalizado. <strong>Las estructuras resonantes NO tienen existencia real</strong>: la estructura real es la <strong>mezcla intermedia o híbrido de resonancia</strong>, más estable que cualquiera de las contribuyentes.</div>
+                <h3>Reglas para escribir estructuras contribuyentes</h3>
+                <div class="tip-box"><ul>
+                    <li>• Todas deben ser estructuras de Lewis válidas (no violar octeto ni valencia máxima).</li>
+                    <li>• <strong>Solo se mueven los electrones π</strong> (y pares libres); <strong>nunca los núcleos</strong> ni los electrones σ.</li>
+                    <li>• Todas tienen igual geometría e hibridación.</li>
+                    <li>• No cambia el número total de electrones ni los desapareados.</li>
+                </ul></div>
+                <h3>Grado de contribución (orden de importancia)</h3>
+                <div class="info-box"><ol>
+                    <li>a) Mayor número de <strong>enlaces covalentes</strong>.</li>
+                    <li>b) <strong>Octetos completos</strong>.</li>
+                    <li>c) Ausencia de cargas o, si las hay, mayor separación y compatibilidad con la electronegatividad (– en el átomo más electronegativo, + en el menos).</li>
+                </ol></div>
+                <h3>Ejercicio resuelto: nitrometano</h3>
+                <div class="img-container">
+                    <img src="nitrometano-resonancia.png" alt="Resonancia del nitrometano: dos estructuras equivalentes" class="molecule-img">
+                    <p style="font-style: italic; color:#666;">Ambos oxígenos distan 1.2 Å del N: la molécula es un híbrido de dos especies idénticas; el enlace N–O es intermedio en ambos extremos.</p>
+                </div>
+                <h3>Ejercicio: contribuyentes de sistemas vinílicos</h3>
+                <div class="problem-box"><strong>Plantea las estructuras contribuyentes de:</strong> CH₂=CH–Cl, CH₂=CH–OH, CH₂=CH–NH₂ y del anión/ácido con grupo –O⁻ / =O.</div>
+                <details class="solution"><summary>🔍 Ver solución</summary>
+                    <p>El heteroátomo con par libre conjugado con el doble enlace dona densidad π (+M):</p>
+                    <p>CH₂=CH–Cl ↔ <sup>−</sup>CH₂–CH=Cl<sup>+</sup> &nbsp;|&nbsp; CH₂=CH–OH ↔ <sup>−</sup>CH₂–CH=OH<sup>+</sup> &nbsp;|&nbsp; CH₂=CH–NH₂ ↔ <sup>−</sup>CH₂–CH=NH₂<sup>+</sup></p>
+                    <p>La estructura con cargas aporta menos (octetos/cargas), pero explica la deslocalización y la mayor estabilidad del sistema. En el grupo nitro (–NO₂) las dos estructuras son <strong>equivalentes</strong> → contribuyen por igual y ejercen fuerte efecto sobre el híbrido.</p>
+                </details>
+                <h3>Ejercicio: equilibrios de ionización (estabilidad del catión)</h3>
+                <div class="problem-box"><strong>Ordena el desplazamiento hacia los iones:</strong><br>
+                a) CH₃CH₂–CH=CH–Cl → CH₃CH₂–CH=CH⁺ + Cl<br>
+                b) CH₃–CH=CH–CH₂–Cl → CH₃–CH=CH–CH₂⁺ + Cl<br>
+                c) CH₂=CH–CH₂–CH₂–Cl → CH₂=CH–CH₂–CH₂⁺ + Cl</div>
+                <details class="solution"><summary>🔍 Ver solución</summary>
+                    <p><strong>b &gt; c &gt; a.</strong> En (b) el catión es <strong>alílico</strong>: la carga + se deslocaliza por resonancia con el doble enlace contiguo → muy estabilizado. En (c) el catión primario no se deslocaliza (el doble enlace está lejos). En (a) el catión <strong>vinílico</strong> (sobre el carbono sp² del doble enlace) es el más inestable.</p>
+                </details>
+            </div>
+
+            <!-- SUB: ISOMERIA -->
+            <div id="sub-isomeria" class="tab-content">
+                <h3>🧬 Isómeros: misma fórmula molecular, diferente estructura</h3>
+                <div class="img-container">
+                    <img src="clasificacion-isomeros.png" alt="Flujograma de clasificación de isómeros" class="molecule-img">
+                    <p style="font-style: italic; color:#666;">Flujograma de clasificación: fórmula → conectividad → rotación → doble enlace → espejo.</p>
+                </div>
+                <h3>Isómeros estructurales</h3>
+                <div class="table-responsive"><table>
+                    <tr><th>Tipo</th><th>Fórmula</th><th>Ejemplos</th></tr>
+                    <tr><td><strong>Cadena</strong></td><td>C₄H₁₀ / C₅H₁₂</td><td>n‑butano ↔ isobutano; n‑pentano ↔ neopentano</td></tr>
+                    <tr><td><strong>Posición</strong></td><td>C₄H₁₀O / C₅H₁₀O</td><td>1‑butanol ↔ 2‑butanol; 2‑pentanona ↔ 3‑pentanona</td></tr>
+                    <tr><td><strong>Función</strong></td><td>C₂H₆O / C₃H₆O</td><td>etanol ↔ éter dimetílico; propanona ↔ propanal</td></tr>
+                </table></div>
+                <h3>Estereoisómeros</h3>
+                <div class="info-box">Mismos átomos en el mismo orden (igual conectividad), diferente <strong>disposición espacial</strong>.
+                <ul>
+                    <li>• <strong>Conformacionales:</strong> por rotación en torno a enlaces simples C–C; interconvertibles a temperatura ambiente (etano, butano).</li>
+                    <li>• <strong>Configuracionales:</strong> no interconvertibles por rotación; se subdividen en <strong>geométricos</strong> (doble enlace, cis/trans) y <strong>ópticos</strong> (enantiómeros y diastereoisómeros).</li>
+                </ul></div>
+                <div class="bio-box"><strong>Ejemplo biomédico:</strong> el ácido láctico del músculo y el de la leche son <strong>enantiómeros</strong> (imágenes especulares no superponibles): (+) y (−) respectivamente.</div>
+            </div>
+
+            <!-- SUB: QUIRALIDAD -->
+            <div id="sub-quiralidad" class="tab-content">
+                <h3>🌀 Quiralidad y simetría</h3>
+                <div class="info-box">La isomería óptica se produce en sustancias <strong>quirales</strong>: objetos sin ningún centro, eje o plano de simetría. La mano, el auto y el tornillo son quirales; la silla es <strong>aquiral</strong> (tiene plano de simetría).</div>
+                <h3>Carbono asimétrico (C*)</h3>
+                <div class="tip-box">Un carbono es asimétrico cuando, siendo <strong>sp³</strong>, está enlazado a <strong>4 grupos diferentes</strong>. Es quiral y presenta isomería óptica (no superponible con su imagen especular). Si tiene 2 grupos iguales → aquiral.</div>
+                <div class="img-container">
+                    <img src="enantiomeros-acido-lactico.png" alt="Enantiómeros del ácido láctico frente a un espejo" class="molecule-img">
+                    <p style="font-style: italic; color:#666;">Enantiómeros del ácido láctico: imágenes especulares no superponibles.</p>
+                </div>
+                <h3>Quiralidad SIN carbono asimétrico</h3>
+                <div class="img-container">
+                    <img src="quiralidad-alenos.png" alt="Quiralidad en alenos y bifenilos" class="molecule-img">
+                    <p style="font-style: italic; color:#666;">Alenos (C central sp, planos perpendiculares) y bifenilos sustituidos (impedimento estérico → no coplanares).</p>
+                </div>
+                <h3>Luz plano polarizada y polarímetro</h3>
+                <div class="img-container">
+                    <img src="luz-plano-polarizada.png" alt="Luz no polarizada pasando por un polarizador" class="molecule-img">
+                    <p style="font-style: italic; color:#666;">El polarizador solo deja pasar la luz que vibra en un plano.</p>
+                </div>
+                <div class="img-container">
+                    <img src="polarimetro.png" alt="Esquema de un polarímetro" class="molecule-img">
+                    <p style="font-style: italic; color:#666;">Polarímetro: la sustancia ópticamente activa rota el plano α; girando el analizador se mide el ángulo.</p>
+                </div>
+                <div class="info-box"><strong>Rotación específica:</strong> [α]ᴅ = α / (l · c) &nbsp;•&nbsp; l = longitud de la celda en <strong>dm</strong> • c = concentración en <strong>g/mL</strong> • D = línea del Na (589 nm).</div>
+                <div class="table-responsive"><table>
+                    <tr><th>Sustancia</th><th>Rotación específica</th><th>Notación</th></tr>
+                    <tr><td>Carvona de comino</td><td>[α]D = +62.5°</td><td>(+)‑carvona / d‑carvona (dextrógira)</td></tr>
+                    <tr><td>Carvona de menta</td><td>[α]D = −62.5°</td><td>(−)‑carvona / l‑carvona (levógira)</td></tr>
+                    <tr><td>Ác. láctico de músculo</td><td>[α]D = +2.5°</td><td>(+)‑ácido láctico / d</td></tr>
+                    <tr><td>Ác. láctico de leche</td><td>[α]D = −2.5°</td><td>(−)‑ácido láctico / l</td></tr>
+                </table></div>
+                <div class="tip-box"><strong>Dextrógira (+):</strong> gira la luz polarizada en el sentido de las agujas del reloj. <strong>Levógira (−):</strong> en sentido contrario. Una molécula con <strong>un solo C*</strong> es <strong>siempre</strong> ópticamente activa; las aquirales son inactivas; con varios C* puede haber formas <em>meso</em> inactivas.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ MAPA ============ -->
+<section id="mapa" class="section">
+    <div class="card">
+        <h2>🗺️ Mapa Conceptual Interactivo</h2>
+        <p style="margin-bottom:1rem;">Haz <strong>clic en cada nodo</strong> para desplegar u ocultar sus ramas.</p>
+        <div class="map-container">
+            <ul class="map-tree">
+                <li class="has-children">
+                    <div class="map-node root" onclick="toggleMap(this)">🧪 Efectos Electrónicos, Resonancia y Estereoquímica</div>
+                    <ul>
+                        <li class="has-children"><div class="map-node branch" onclick="toggleMap(this)">🌀 Sistemas π deslocalizados</div>
+                            <ul>
+                                <li><span class="map-leaf">Requisito: &gt;2 orbitales p contiguos y coplanares</span></li>
+                                <li><span class="map-leaf">1,3‑butadieno: enlaces C–C intermedios</span></li>
+                                <li><span class="map-leaf">Benceno: sp², 2 nubes π arriba y abajo</span></li>
+                                <li><span class="map-leaf">Ciclooctatetraeno: NO planar → sin deslocalización</span></li>
+                                <li><span class="map-leaf">Consecuencia: mayor estabilidad, orden de enlace intermedio</span></li>
+                            </ul>
+                        </li>
+                        <li class="has-children"><div class="map-node branch" onclick="toggleMap(this)">⚡ Efecto inductivo (I)</div>
+                            <ul>
+                                <li><span class="map-leaf">Desplazamiento σ por Δ electronegatividad</span></li>
+                                <li><span class="map-leaf">–I: Cl atrae (CH₃–Cl: C δ+, Cl δ−)</span></li>
+                                <li><span class="map-leaf">+I: 3° &gt; 2° &gt; 1° &gt; CH₃</span></li>
+                                <li><span class="map-leaf">Estático Ie + dinámico Id (medio polar)</span></li>
+                                <li><span class="map-leaf">Atracción e⁻: sp (50% s) &gt; sp² &gt; sp³</span></li>
+                            </ul>
+                        </li>
+                        <li class="has-children"><div class="map-node branch" onclick="toggleMap(this)">🎭 Efecto mesomérico (M) y electromérico (E)</div>
+                            <ul>
+                                <li><span class="map-leaf">M: desplazamiento π que contrarresta cargas</span></li>
+                                <li><span class="map-leaf">E: desplazamiento π favorecido por medio polar</span></li>
+                                <li><span class="map-leaf">Siempre: M + E &gt; Ie + Id</span></li>
+                                <li><span class="map-leaf">CH₂=CH–Cl y CH₂=CH–OH: heteroátomo dona par libre</span></li>
+                            </ul>
+                        </li>
+                        <li class="has-children"><div class="map-node branch" onclick="toggleMap(this)">🔁 Resonancia</div>
+                            <ul>
+                                <li><span class="map-leaf">Teoría Enlace‑Valencia para π deslocalizado</span></li>
+                                <li><span class="map-leaf">Estructuras no reales: el híbrido es la estructura real</span></li>
+                                <li><span class="map-leaf">Reglas: solo se mueven e⁻ π, nunca núcleos</span></li>
+                                <li><span class="map-leaf">Contribución: + enlaces, octetos completos, cargas coherentes</span></li>
+                                <li><span class="map-leaf">Nitrometano: 2 estructuras equivalentes, N–O 1.2 Å</span></li>
+                            </ul>
+                        </li>
+                        <li class="has-children"><div class="map-node branch" onclick="toggleMap(this)">🧬 Isomería estructural</div>
+                            <ul>
+                                <li><span class="map-leaf">Igual FM, diferente estructura</span></li>
+                                <li><span class="map-leaf">Cadena: n‑butano/isobutano</span></li>
+                                <li><span class="map-leaf">Posición: 1‑butanol/2‑butanol</span></li>
+                                <li><span class="map-leaf">Función: etanol/éter dimetílico</span></li>
+                            </ul>
+                        </li>
+                        <li class="has-children"><div class="map-node branch" onclick="toggleMap(this)">🧊 Estereoisomería</div>
+                            <ul>
+                                <li><span class="map-leaf">Conformacionales: rotación C–C (etano, butano)</span></li>
+                                <li><span class="map-leaf">Configuracionales: ópticos y geométricos</span></li>
+                                <li><span class="map-leaf">Geométricos: producidos por doble enlace</span></li>
+                                <li><span class="map-leaf">Ópticos: enantiómeros (espejo) y diastereoisómeros</span></li>
+                            </ul>
+                        </li>
+                        <li class="has-children"><div class="map-node branch" onclick="toggleMap(this)">🌀 Quiralidad y actividad óptica</div>
+                            <ul>
+                                <li><span class="map-leaf">Sin centro, eje ni plano de simetría</span></li>
+                                <li><span class="map-leaf">C* sp³ con 4 grupos diferentes</span></li>
+                                <li><span class="map-leaf">Sin C*: alenos (C sp) y bifenilos (no coplanares)</span></li>
+                                <li><span class="map-leaf">Polarímetro: [α]D = α/(l·c); D = 589 nm</span></li>
+                                <li><span class="map-leaf">(+)/dextrógira horario • (−)/levógira antihorario</span></li>
+                                <li><span class="map-leaf">Carvona ±62.5° • Ác. láctico ±2.5°</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ============ FLASHCARDS ============ -->
+<section id="flashcards" class="section">
+    <div class="card">
+        <h2>🃏 Flashcards de Estudio</h2>
+        <p>Haz <strong>clic en la tarjeta</strong> para voltearla y ver la respuesta. Luego califícate con honestidad.</p>
+        <div class="fc-stats">
+            <span class="fc-stat good">✅ Buenas: <span id="fc-good">0</span></span>
+            <span class="fc-stat bad">❌ Malas: <span id="fc-bad">0</span></span>
+            <span class="fc-stat pending">⏳ Pendientes: <span id="fc-left">0</span></span>
+            <span class="fc-stat total">📈 Historial: <span id="fc-hist">0 ✓ / 0 ✗</span></span>
+        </div>
+        <div class="fc-progress"><div class="fc-progress-bar" id="fc-bar"></div></div>
+        <div class="flashcard-scene" id="fc-scene">
+            <div class="flashcard" id="fc-card" onclick="flipCard()">
+                <div class="fc-face fc-front"><div class="fc-label">PREGUNTA</div><div id="fc-question"></div><span class="fc-hint">Clic para voltear ✨</span></div>
+                <div class="fc-face fc-back"><div class="fc-label">RESPUESTA</div><div id="fc-answer"></div></div>
+            </div>
+        </div>
+        <div class="fc-controls" id="fc-controls">
+            <button class="fc-btn good" id="btn-fc-good" onclick="gradeCard(true)" disabled>✅ La sabía</button>
+            <button class="fc-btn bad" id="btn-fc-bad" onclick="gradeCard(false)" disabled>❌ No la sabía</button>
+        </div>
+        <div id="fc-summary" class="calc-result" style="max-width:720px;margin:1rem auto;"></div>
+        <div style="text-align:center;">
+            <button class="calc-button" onclick="resetFlashcards()">🔄 Reiniciar Flashcards</button><br>
+            <button class="fc-link" onclick="borrarHistorial()">Borrar historial acumulado</button>
+        </div>
+    </div>
+</section>
+
+<!-- ============ HERRAMIENTAS ============ -->
+<section id="calculadoras" class="section">
+    <div class="card">
+        <h2>🧮 Herramientas Interactivas</h2>
+        <div id="herramientas-tabs" class="tab-group">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('herramientas-tabs','calc-rotacion', this)">🌀 Polarímetro</button>
+                <button class="tab" onclick="showTab('herramientas-tabs','calc-hibridacion', this)">🔬 Hibridación y Deslocalización</button>
+                <button class="tab" onclick="showTab('herramientas-tabs','calc-isomeros', this)">🧬 Clasificador de Isómeros</button>
+                <button class="tab" onclick="showTab('herramientas-tabs','vis-quiralidad', this)">👁️ Visualizador de Quiralidad</button>
+            </div>
+
+            <div id="calc-rotacion" class="tab-content active">
+                <div class="calculator">
+                    <div class="calc-title">🌀 Calculadora de Rotación Específica [α]ᴅ = α / (l·c)</div>
+                    <div class="calc-input-group"><label>Rotación observada α (grados, admite negativos):</label><input type="number" id="rot-alpha" step="0.1" placeholder="Ej: +2.5"></div>
+                    <div class="calc-input-group"><label>Longitud de la celda l (dm):</label><input type="number" id="rot-l" step="0.1" min="0.1" placeholder="Ej: 1"></div>
+                    <div class="calc-input-group"><label>Concentración c (g/mL):</label><input type="number" id="rot-c" step="0.01" min="0.01" placeholder="Ej: 1"></div>
+                    <button class="calc-button" onclick="calcularRotacion()">Calcular [α]ᴅ</button>
+                    <div id="rotacion-resultado" class="calc-result"></div>
+                    <div class="info-box" style="margin-top:2rem;"><strong>Ejemplos de clase:</strong>
+                    <ul>
+                        <li>• α = +2.5°, l = 1 dm, c = 1 g/mL → [α]D = +2.5° (ácido láctico de músculo, dextrógiro).</li>
+                        <li>• α = −62.5°, l = 1 dm, c = 1 g/mL → [α]D = −62.5° (carvona de menta, levógira).</li>
+                    </ul></div>
+                </div>
+            </div>
+
+            <div id="calc-hibridacion" class="tab-content">
+                <div class="calculator">
+                    <div class="calc-title">🔬 Hibridación y aporte al sistema π deslocalizado</div>
+                    <div class="calc-input-group"><label>Número de átomos enlazados al carbono:</label><input type="number" id="num-enlaces" min="1" max="4" placeholder="Ej: 3"></div>
+                    <div class="calc-input-group"><label>Número de enlaces π:</label><input type="number" id="num-pi" min="0" max="2" placeholder="Ej: 1"></div>
+                    <button class="calc-button" onclick="calcularHibridacion()">Analizar</button>
+                    <div id="hibridacion-resultado" class="calc-result"></div>
+                    <div class="info-box" style="margin-top:2rem;"><strong>Regla:</strong> todo carbono sp² o sp conserva orbitales p sin hibridar; si existen <strong>más de dos orbitales p contiguos y coplanares</strong>, hay enlace π deslocalizado.</div>
+                </div>
+            </div>
+
+            <div id="calc-isomeros" class="tab-content">
+                <div class="calculator">
+                    <div class="calc-title">🧬 Clasificador de Isómeros (flujograma de clase)</div>
+                    <div class="calc-input-group"><label>¿Tienen la misma fórmula molecular?</label><select id="iso-f" onchange="isoUpdate()"><option value="">—</option><option value="si">SI</option><option value="no">NO</option></select></div>
+                    <div class="calc-input-group" id="row-c" style="display:none;"><label>¿Tienen la misma conectividad?</label><select id="iso-c" onchange="isoUpdate()"><option value="">—</option><option value="si">SI</option><option value="no">NO</option></select></div>
+                    <div class="calc-input-group" id="row-r" style="display:none;"><label>¿Son interconvertibles por rotación en torno a enlaces C–C?</label><select id="iso-r" onchange="isoUpdate()"><option value="">—</option><option value="si">SI</option><option value="no">NO</option></select></div>
+                    <div class="calc-input-group" id="row-d" style="display:none;"><label>¿La diferencia es producida por un doble enlace?</label><select id="iso-d" onchange="isoUpdate()"><option value="">—</option><option value="si">SI</option><option value="no">NO</option></select></div>
+                    <div class="calc-input-group" id="row-e" style="display:none;"><label>¿Son imágenes especulares no superponibles?</label><select id="iso-e" onchange="isoUpdate()"><option value="">—</option><option value="si">SI</option><option value="no">NO</option></select></div>
+                    <button class="calc-button" onclick="clasificarIsomeros()">Clasificar</button>
+                    <div id="iso-resultado" class="calc-result"></div>
+                </div>
+            </div>
+
+            <div id="vis-quiralidad" class="tab-content">
+                <div class="calculator">
+                    <div class="calc-title">👁️ Visualizador: carbono asimétrico y su imagen especular</div>
+                    <div style="text-align:center;">
+                        <svg viewBox="0 0 600 300" style="max-width:640px;width:100%;">
+                            <line x1="300" y1="15" x2="300" y2="285" stroke="#999" stroke-width="3" stroke-dasharray="8,6"/>
+                            <text x="300" y="12" text-anchor="middle" font-size="14" fill="#666">espejo</text>
+                            <circle cx="150" cy="150" r="14" fill="#16213e"/><text x="150" y="155" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">C</text>
+                            <line x1="150" y1="136" x2="150" y2="70" stroke="#16213e" stroke-width="3"/>
+                            <text x="150" y="58" text-anchor="middle" font-size="16" fill="#b22222" font-weight="bold">COOH</text>
+                            <polygon points="150,150 240,190 230,210" fill="#16213e"/>
+                            <text x="252" y="210" font-size="16" fill="#b22222" font-weight="bold">OH</text>
+                            <line x1="150" y1="150" x2="75" y2="205" stroke="#16213e" stroke-width="3" stroke-dasharray="6,5"/>
+                            <text x="60" y="222" font-size="16" fill="#16213e" font-weight="bold">H</text>
+                            <line x1="150" y1="164" x2="150" y2="240" stroke="#16213e" stroke-width="3"/>
+                            <text x="150" y="262" text-anchor="middle" font-size="16" fill="#16213e" font-weight="bold">CH₃</text>
+                            <circle cx="450" cy="150" r="14" fill="#16213e"/><text x="450" y="155" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">C</text>
+                            <line x1="450" y1="136" x2="450" y2="70" stroke="#16213e" stroke-width="3"/>
+                            <text x="450" y="58" text-anchor="middle" font-size="16" fill="#b22222" font-weight="bold">COOH</text>
+                            <polygon points="450,150 360,190 370,210" fill="#16213e"/>
+                            <text x="330" y="210" font-size="16" fill="#b22222" font-weight="bold">OH</text>
+                            <line x1="450" y1="150" x2="525" y2="205" stroke="#16213e" stroke-width="3" stroke-dasharray="6,5"/>
+                            <text x="532" y="222" font-size="16" fill="#16213e" font-weight="bold">H</text>
+                            <line x1="450" y1="164" x2="450" y2="240" stroke="#16213e" stroke-width="3"/>
+                            <text x="450" y="262" text-anchor="middle" font-size="16" fill="#16213e" font-weight="bold">CH₃</text>
+                        </svg>
+                    </div>
+                    <div class="info-box">El carbono central une 4 grupos diferentes (COOH, OH, CH₃, H) → <strong>carbono asimétrico (C*)</strong>. Intenta superponer ambas moléculas mentalmente: <strong>no se puede</strong> → son <strong>enantiómeros</strong> (como el ácido láctico del músculo y el de la leche).</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ APLICACIONES ============ -->
+<section id="aplicaciones" class="section">
+    <div class="card">
+        <h2>🏥 Aplicaciones Profesionales</h2>
+        <div id="aplicaciones-tabs" class="tab-group">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('aplicaciones-tabs','aplic-medicina', this)">🩺 Medicina</button>
+                <button class="tab" onclick="showTab('aplicaciones-tabs','aplic-farma', this)">💊 Farmacología</button>
+                <button class="tab" onclick="showTab('aplicaciones-tabs','aplic-bioq', this)">🧬 Bioquímica</button>
+            </div>
+
+            <div id="aplic-medicina" class="tab-content active">
+                <div class="bio-box"><strong>Enfoque clínico:</strong> la quiralidad y los efectos electrónicos explican por qué dos moléculas “gemelas” pueden curar o dañar, y por qué los enzimas distinguen entre enantiómeros.</div>
+                <div class="problem-box"><strong>📋 Problema 1 — Talidomida:</strong> En los años 60, la talidomida racémica causó miles de malformaciones fetales: el (R)‑enantiómero era sedante y el (S)‑teratógeno. a) ¿Qué tipo de isomería existe entre ambos? b) ¿Por qué el organismo los distingue?</div>
+                <details class="solution"><summary>🔍 Ver solución</summary>
+                    <p><strong>a)</strong> Son <strong>enantiómeros</strong> (estereoisómeros configuracionales ópticos: imágenes especulares no superponibles, mismo C* con 4 grupos diferentes).</p>
+                    <p><strong>b)</strong> Los receptores y enzimas son ellos mismos <strong>quirales</strong> (proteínas de L‑aminoácidos): la unión es estereoespecífica, como una mano en un guante. Por eso cada enantiómero tiene un efecto biológico distinto. Lección regulatoria: hoy se exige control de quiralidad de los fármacos.</p>
+                </details>
+                <div class="problem-box"><strong>📋 Problema 2 — Acidosis D‑láctica:</strong> Paciente con síndrome de intestino corto presenta episodios de confusión y acidosis metabólica con L‑lactato normal. ¿Por qué se acumula D‑lactato y no lo metabolizamos?</div>
+                <details class="solution"><summary>🔍 Ver solución</summary>
+                    <p>Las bacterias intestinales fermentan carbohidratos produciendo <strong>D‑lactato</strong>. Nuestra <strong>L‑lactato deshidrogenasa es estereoespecífica</strong>: solo reconoce el enantiómero L (el del músculo, [α]D = +2.5°), por lo que el D‑lactato se acumula y produce acidosis. Es un ejemplo clínico directo de que los enantiómeros tienen propiedades biológicas distintas (aunque físicas idénticas salvo el signo de rotación).</p>
+                </details>
+            </div>
+
+            <div id="aplic-farma" class="tab-content">
+                <div class="pharma-box"><strong>Quiralidad farmacológica:</strong> la rotación específica ([α]D) es un control de identidad y pureza óptica en farmacopea; muchos fármacos se comercializan como enantiómero único.</div>
+                <div class="problem-box"><strong>📋 Problema 1 — Albuterol (salbutamol):</strong> El derivado del albuterol aparece en tu material de clase como broncodilatador (asma, bronquitis). El (R)‑enantiómero produce la broncodilatación y el (S) se asocia a efectos adversos. a) ¿Qué relación estereoquímica tienen? b) ¿Qué ventaja ofrece el levosalbutamol?</div>
+                <details class="solution"><summary>🔍 Ver solución</summary>
+                    <p><strong>a)</strong> <strong>Enantiómeros</strong> (isómeros ópticos). <strong>b)</strong> Administrar solo el (R)‑enantiómero (<em>levosalbutamol</em>) mantiene la eficacia β2‑agonista con menor carga de efectos adversos: la quiralidad optimiza la relación beneficio/riesgo.</p>
+                </details>
+                <div class="problem-box"><strong>📋 Problema 2 — Ibuprofeno:</strong> El (S)‑ibuprofeno inhibe la COX; el (R) es casi inactivo in vitro, pero parte se convierte en (S) en el organismo. Relaciona esto con los efectos electrónicos y la resonancia del anillo aromático.</div>
+                <details class="solution"><summary>🔍 Ver solución</summary>
+                    <p>El anillo aromático (sp², π deslocalizado) y el grupo –COOH (resonancia que estabiliza el carboxilato, efecto M) posicionan el fármaco en la COX; pero el C* determina la orientación correcta de los grupos: solo la configuración (S) complementa el sitio activo. La <strong>inversión R→S</strong> enzimática explica por qué la mezcla racémica sigue siendo útil.</p>
+                </details>
+            </div>
+
+            <div id="aplic-bioq" class="tab-content">
+                <div class="bio-box"><strong>Enfoque molecular:</strong> la resonancia y la deslocalización π estabilizan las biomoléculas; la homoquiralidad (L‑aminoácidos, D‑azúcares) es una firma de la vida.</div>
+                <div class="problem-box"><strong>📋 Problema 1 — Enlace peptídico:</strong> El enlace amida C(=O)–N de las proteínas se describe con dos estructuras resonantes. ¿Qué consecuencia estructural tiene para la proteína?</div>
+                <details class="solution"><summary>🔍 Ver solución</summary>
+                    <p>La contribuyente con C=N⁺ y O⁻ otorga al enlace C–N <strong>carácter parcial de doble enlace</strong> → es <strong>plano y rígido</strong> (sin rotación libre). Esa planicidad restringe los ángulos φ/ψ de la cadena y determina las estructuras secundarias (α‑hélice, β‑lámina). Resonancia → estructura → función.</p>
+                </details>
+                <div class="problem-box"><strong>📋 Problema 2 — Bases del ADN:</strong> ¿Por qué las bases nitrogenadas, con sus anillos sp² deslocalizados, estabilizan la doble hélice además de los puentes de hidrógeno?</div>
+                <details class="solution"><summary>🔍 Ver solución</summary>
+                    <p>Los anillos aromáticos planos poseen nubes π deslocalizadas que se <strong>apilan (interacciones π–π)</strong> entre pares de bases contiguos. La <strong>deslocalización aumenta la estabilidad</strong> de la hélice, tal como la clase indica: “la deslocalización aumenta la estabilidad de las especies químicas”.</p>
+                </details>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ MNEMOTECNIAS ============ -->
+<section id="mnemotecnias" class="section">
+    <div class="card">
+        <h2>🧠 Nemotecnias y Reglas Mnemotécnicas</h2>
+        <div class="mnemonic-card"><div class="mnemonic-title">🪞 “Núcleos quietos, electrones turistas”</div><p>En <strong>resonancia</strong> solo se mueven los electrones π y pares libres; <strong>los núcleos jamás</strong>. Si moviste átomos, no es resonancia: es otro compuesto.</p></div>
+        <div class="mnemonic-card"><div class="mnemonic-title">🏆 “M+E le gana a Ie+Id”</div><p>Los electrones <strong>π son más móviles</strong> que los σ → el efecto mesomérico + electromérico siempre supera al inductivo estático + dinámico.</p></div>
+        <div class="mnemonic-card"><div class="mnemonic-title">🧲 “3‑2‑1‑metil” para +I</div><p>Efecto donador de alquilos: <strong>3° &gt; 2° &gt; 1° &gt; CH₃</strong>. Y para atraer electrones por hibridación: <strong>sp (50% s) &gt; sp² (33%) &gt; sp³ (25%)</strong> → “el s atrae más”.</p></div>
+        <div class="mnemonic-card"><div class="mnemonic-title">🪑 “La silla aquiral, la mano quiral”</div><p>Con <strong>plano de simetría</strong> (silla) → aquiral, ópticamente inactiva. Sin ningún elemento de simetría (mano) → quiral, activa.</p></div>
+        <div class="mnemonic-card"><div class="mnemonic-title">✋ “4 diferentes = C*”</div><p>Carbono sp³ con <strong>4 grupos distintos</strong> → carbono asimétrico → enantiómeros. Un solo C*: <strong>siempre</strong> ópticamente activo.</p></div>
+        <div class="mnemonic-card"><div class="mnemonic-title">🕐 “Reloj derecho (+)”</div><p><strong>Dextrógira (+)</strong>: gira la luz como las agujas del reloj. <strong>Levógira (−)</strong>: al revés. Carvona: comino +62.5°, menta −62.5°.</p></div>
+        <div class="mnemonic-card"><div class="mnemonic-title">🚫 “COT chueco, no aromático”</div><p>El <strong>ciclooctatetraeno</strong> se tuerce para no violentar ángulos → <strong>no planar → sin deslocalización</strong>. Benceno plano → sí deslocaliza.</p></div>
+        <div class="mnemonic-card"><div class="mnemonic-title">🪞 “Enantiómeros espejo; diastereoisómeros, ni espejo ni iguales”</div><p>Enantiómeros = imágenes especulares no superponibles. Diastereoisómeros = estereoisómeros que <strong>NO</strong> son imágenes especulares.</p></div>
+    </div>
+</section>
+
+<!-- ============ GLOSARIO ============ -->
+<section id="glosario" class="section">
+    <div class="card">
+        <h2>📖 Glosario Interactivo</h2>
+        <p style="margin-bottom:1.5rem;">Haz clic en cada término para ver su definición:</p>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Sistema π deslocalizado</strong><div class="glossary-definition">Conjunto de más de dos orbitales p contiguos y coplanares que se solapan lateralmente, formando nubes π extendidas que aumentan la estabilidad y dan órdenes de enlace intermedios.</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Orden de enlace</strong><div class="glossary-definition">Magnitud que mide la naturaleza de un enlace (simple = 1, doble = 2). En sistemas deslocalizados adopta valores intermedios, como en el benceno.</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Efecto inductivo (I)</strong><div class="glossary-definition">Desplazamiento de la densidad electrónica de los enlaces σ por diferencia de electronegatividad. –I la disminuye sobre un átomo; +I la aumenta. Puede ser estático (Ie) o dinámico (Id).</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Efecto mesomérico (M)</strong><div class="glossary-definition">Desplazamiento de la densidad electrónica π tendiente a contrarrestar las cargas presentes en la molécula.</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Efecto electromérico (E)</strong><div class="glossary-definition">Mayor desplazamiento de la densidad π favorecido por un medio polar. Siempre se cumple M + E &gt; Ie + Id.</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Resonancia</strong><div class="glossary-definition">Método de la teoría Enlace‑Valencia para describir especies con π deslocalizado mediante varias estructuras contribuyentes; la real es el híbrido de resonancia.</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Estructuras equivalentes</strong><div class="glossary-definition">Estructuras resonantes que contribuyen por igual al híbrido (ej.: las dos del nitrometano); ejercen fuerte contribución.</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Isómeros</strong><div class="glossary-definition">Compuestos con igual fórmula molecular pero diferente estructura y, por tanto, diferentes propiedades.</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Isómeros estructurales</strong><div class="glossary-definition">Difieren en la conectividad: de cadena (n‑butano/isobutano), de posición (1‑/2‑butanol) y de función (etanol/éter dimetílico).</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Estereoisómeros</strong><div class="glossary-definition">Mismos átomos en el mismo orden, diferente disposición espacial. Conformacionales (rotación C–C) o configuracionales (ópticos y geométricos).</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Enantiómeros</strong><div class="glossary-definition">Estereoisómeros configuracionales que son imágenes especulares no superponibles (ej.: ácido (+) y (−) láctico).</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Diastereoisómeros</strong><div class="glossary-definition">Estereoisómeros configuracionales que NO son imágenes especulares entre sí (incluye los isómeros geométricos cis/trans).</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Quiralidad</strong><div class="glossary-definition">Propiedad de los objetos que no poseen ningún centro, eje o plano de simetría; no superponibles con su imagen especular.</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Carbono asimétrico (C*)</strong><div class="glossary-definition">Carbono sp³ unido a 4 grupos diferentes. Con un solo C*, la molécula es siempre ópticamente activa.</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Luz plano polarizada</strong><div class="glossary-definition">Luz que vibra en un solo plano, obtenida al pasar la luz por un polarizador que absorbe el resto de los planos.</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Polarímetro</strong><div class="glossary-definition">Equipo que mide la actividad óptica: fuente, polarizador, tubo de muestra, analizador y detector. Girando el analizador se mide el ángulo α.</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Rotación específica [α]ᴅ</strong><div class="glossary-definition">[α]D = α/(l·c), con l en dm y c en g/mL; D = 589 nm (línea del sodio). Característica de cada sustancia ópticamente activa.</div></div>
+        <div class="glossary-term" onclick="toggleDefinition(this)"><strong>Dextrógira / Levógira</strong><div class="glossary-definition">Dextrógira (+): rota la luz polarizada en sentido horario. Levógira (−): en sentido antihorario.</div></div>
+    </div>
+</section>
+
+<!-- ============ ERRORES ============ -->
+<section id="errores" class="section">
+    <div class="card">
+        <h2>⚠️ Errores Comunes de Estudiantes</h2>
+        <div class="error-card"><div class="error-title">❌ Error 1: Creer que las estructuras resonantes existen en equilibrio</div><p><strong>Error:</strong> “La molécula oscila entre una estructura y otra”.</p><div class="correction">✓ Corrección: ninguna estructura existe realmente; la molécula es siempre el <strong>híbrido de resonancia</strong>, más estable que cualquier contribuyente.</div></div>
+        <div class="error-card"><div class="error-title">❌ Error 2: Mover átomos al dibujar resonancia</div><p><strong>Error:</strong> cambiar la posición de los núcleos entre estructuras.</p><div class="correction">✓ Corrección: solo se mueven electrones π y pares libres; la geometría y la hibridación no cambian.</div></div>
+        <div class="error-card"><div class="error-title">❌ Error 3: Aceptar ciclooctatetraeno como “aromático”</div><p><strong>Error:</strong> asumir que todo anillo con dobles enlaces alternados deslocaliza.</p><div class="correction">✓ Corrección: el COT es <strong>no planar</strong>; sin coplanaridad de orbitales p no hay deslocalización. El benceno sí es plano.</div></div>
+        <div class="error-card"><div class="error-title">❌ Error 4: Confundir efecto inductivo con mesomérico</div><p><strong>Error:</strong> usar I para sistemas π o M para enlaces σ.</p><div class="correction">✓ Corrección: <strong>I actúa sobre σ</strong> (Δ electronegatividad); <strong>M sobre π</strong> (contrarrestar cargas). Recuerda M + E &gt; Ie + Id.</div></div>
+        <div class="error-card"><div class="error-title">❌ Error 5: Confundir conformacionales con configuracionales</div><p><strong>Error:</strong> creer que los confórmeros del butano son isómeros separables.</p><div class="correction">✓ Corrección: los conformacionales se interconvierten por rotación a temperatura ambiente; los configuracionales (ópticos/geométricos) son especies separables.</div></div>
+        <div class="error-card"><div class="error-title">❌ Error 6: “Todo compuesto con C* es ópticamente activo”</div><p><strong>Error:</strong> generalizar a moléculas con varios C*.</p><div class="correction">✓ Corrección: con <strong>un solo C*</strong> siempre es activa; con varios C* pueden existir formas <strong>meso</strong> (plano de simetría interno) ópticamente inactivas.</div></div>
+        <div class="error-card"><div class="error-title">❌ Error 7: Confundir (+)/(−) con R/S o D/L</div><p><strong>Error:</strong> pensar que el signo de rotación indica la configuración absoluta.</p><div class="correction">✓ Corrección: (+)/(−) se mide en el <strong>polarímetro</strong> (propiedad física); R/S describe la configuración espacial. No se deducen uno del otro.</div></div>
+        <div class="error-card"><div class="error-title">❌ Error 8: Olvidar el par libre del heteroátomo conjugado</div><p><strong>Error:</strong> negar deslocalización en CH₂=CH–Cl o CH₂=CH–OH.</p><div class="correction">✓ Corrección: el par libre de Cl/O ocupa un orbital p contiguo al sistema π → hay deslocalización y efecto +M (como muestra tu material de clase).</div></div>
+        <div class="tip-box" style="margin-top:2rem;"><strong>💡 Consejo de estudio:</strong> ante cualquier molécula pregúntate:
+            <ol>
+                <li>¿Hay más de dos orbitales p contiguos y coplanares?</li>
+                <li>¿Qué efectos electrónicos actúan?</li>
+                <li>¿Tiene elementos de simetría?</li>
+            </ol>
+            Con eso dominas el capítulo.</div>
+    </div>
+</section>
+
+<!-- ============ BIBLIOGRAFÍA ============ -->
+<section id="bibliografia" class="section">
+    <div class="card">
+        <h2>📚 Fuentes Bibliográficas Universitarias</h2>
+        <h3>Libros de Texto Principales</h3>
+        <div class="info-box"><strong>1. Wade, L.G. — “Química Orgánica”</strong><br>• <strong>Cap. 2:</strong> Estructura y propiedades: resonancia y efectos electrónicos<br>• <strong>Cap. 5:</strong> Estereoquímica (quiralidad, enantiómeros, polarimetría)<br>• 9na edición, Pearson, 2017</div>
+        <div class="info-box"><strong>2. McMurry, J. — “Química Orgánica”</strong><br>• <strong>Cap. 2:</strong> Enlace y resonancia • <strong>Cap. 5:</strong> Estereoquímica y actividad óptica<br>• 9na edición, Cengage Learning, 2016</div>
+        <div class="info-box"><strong>3. Solomons, T.W.G. & Fryhle, C.B. — “Química Orgánica”</strong><br>• <strong>Cap. 1‑2:</strong> Enlace, deslocalización y resonancia • <strong>Cap. 5:</strong> Isomería y quiralidad<br>• 10ma edición, Wiley, 2011</div>
+        <h3>Recursos Especializados</h3>
+        <div class="bio-box"><div><strong>4. Clayden, J. — “Organic Chemistry”</strong><br>• Cap. de conjugación/resonancia y estereoquímica • 2da ed., Oxford, 2012</div></div>
+        <div class="pharma-box"><div><strong>5. Patrick, G.L. — “An Introduction to Medicinal Chemistry”</strong><br>• Cap. de quiralidad de fármacos (talidomida, ibuprofeno, salbutamol) • 6ta ed., Oxford, 2017</div></div>
+        <h3>Artículos y Recursos en Línea</h3>
+        <div class="info-box"><strong>6. Pauling, L. (1931)</strong> “The Nature of the Chemical Bond”, JACS 53: 1367‑1400 — base de la resonancia y la hibridación.</div>
+        <div class="tip-box"><strong>7. Recursos en línea:</strong> PubChem (pubchem.ncbi.nlm.nih.gov) • ChemSpider • MolView (molview.org) para visualizar enantiómeros en 3D.</div>
+        <h3>Recursos UPCH</h3>
+        <div class="bio-box"><div><strong>8. Material de clase — Facultad de Medicina UPCH</strong><br>• Capítulo 02 (UFBI Química Orgánica): Efectos Electrónicos, Resonancia y Estereoquímica<br>• Guías de práctica y banco de preguntas de exámenes</div></div>
+    </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section id="quiz" class="section">
+    <div class="card">
+        <h2>🎯 Quiz de Autoevaluación</h2>
+        <p>Cada ciclo muestra <strong>10 preguntas al azar</strong> de una base de <strong>30</strong>. Cada vez que entras a esta pestaña se sortea un nuevo ciclo.</p>
+        <div class="quiz-stats">
+            <span class="quiz-stat" id="q-progress-text">Pregunta 1 de 10 • Aciertos: 0</span>
+            <span class="quiz-stat" id="q-history" style="background:#6c757d;"></span>
+        </div>
+        <div class="quiz-progress"><div class="quiz-progress-bar-bg"><div class="quiz-progress-bar" id="q-bar"></div></div></div>
+        <div id="quiz-container"></div>
+        <div id="quiz-result" class="calc-result" style="max-width:720px;margin:1rem auto;"></div>
+        <div style="text-align:center; margin-top:2rem;">
+            <button class="calc-button" onclick="startNewCycle()">🔄 Reiniciar Quiz (nuevo ciclo aleatorio)</button>
+        </div>
+    </div>
+</section>
+
+</div>
+
+<footer class="footer">
+    <p style="font-size:1.2rem; margin-bottom:1rem;">🎓 Universidad Peruana Cayetano Heredia</p>
+    <p>Facultad de Medicina • Departamento de Ciencias Básicas</p>
+    <p style="margin-top:1rem; font-style:italic;">"La química orgánica es el lenguaje de la vida"</p>
+    <p style="margin-top:2rem; font-size:0.9rem;">© 2026 - Material educativo para estudiantes de medicina</p>
+</footer>
+
+<script>
+// ================= NAVEGACIÓN =================
+function showSection(sectionId, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(sectionId).classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    if (sectionId === 'quiz') startNewCycle(); // 🎲 nuevo sorteo CADA vez que se entra al Quiz
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function showTab(groupId, tabId, btn) {
+    const g = document.getElementById(groupId);
+    g.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    g.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    if (btn) btn.classList.add('active');
+}
+function toggleMap(node){ node.parentElement.classList.toggle('open'); }
+function toggleDefinition(el){
+    const d = el.querySelector('.glossary-definition');
+    d.classList.toggle('show');
+    el.style.background = d.classList.contains('show') ? '#fff9e6' : 'var(--white)';
+}
+
+// ================= FLASHCARDS =================
+const flashcards = [
+ { q:'Requisito para que exista enlace π deslocalizado:', a:'Más de dos orbitales p contiguos y coplanares que se solapan lateralmente.' },
+ { q:'¿Hay deslocalización en el 1,3-butadieno? ¿Cómo son sus enlaces C–C?', a:'Sí; los enlaces no son simples ni dobles sino intermedios (orden de enlace intermedio).' },
+ { q:'Hibridación y orbitales p del benceno:', a:'Cada C es sp² (unido a 3 átomos) con 1 orbital p sin hibridar; se forman 2 nubes π (sobre y bajo el plano).' },
+ { q:'¿Por qué el ciclooctatetraeno NO deslocaliza?', a:'Adopta estructura NO planar para no violentar ángulos; sin coplanaridad no hay solapamiento p efectivo.' },
+ { q:'Consecuencias de la deslocalización π:', a:'Aumenta la estabilidad (menor reactividad/desplaza equilibrios) y da órdenes de enlace intermedios.' },
+ { q:'Efecto inductivo (I): definición y tipos.', a:'Desplazamiento de densidad σ por Δ de electronegatividad. +I aumenta / –I disminuye densidad. Estático (Ie) y dinámico (Id, medio polar).' },
+ { q:'Orden de efecto donador +I de los alquilos:', a:'3° > 2° > 1° > CH₃.' },
+ { q:'Atracción de electrones según hibridación (% s):', a:'sp (50%) > sp² (33%) > sp³ (25%): el orbital s es más interno y atrae más.' },
+ { q:'Efecto mesomérico (M):', a:'Desplazamiento de la densidad π tendiente a contrarrestar las cargas de la molécula.' },
+ { q:'Efecto electromérico (E) y relación general:', a:'Mayor desplazamiento π favorecido por medio polar. Siempre M + E > Ie + Id.' },
+ { q:'¿Qué dona el Cl en el cloruro de vinilo (H₂C=CH–Cl)?', a:'Su par libre al sistema π por efecto mesomérico (+M): H₂C=CH–Cl ↔ ⁻CH₂–CH=Cl⁺.' },
+ { q:'Resonancia: ¿qué teoría la propone y qué es la estructura real?', a:'Teoría Enlace-Valencia. La estructura real es el híbrido de resonancia, más estable que cualquier contribuyente.' },
+ { q:'Reglas de las estructuras contribuyentes:', a:'Lewis válidas; solo se mueven e⁻ π (nunca núcleos ni σ); igual geometría e hibridación; igual número de e⁻.' },
+ { q:'Criterios de mayor contribución resonante:', a:'Más enlaces covalentes; octetos completos; sin cargas o cargas separadas y coherentes con la electronegatividad.' },
+ { q:'Nitrometano: ¿por qué ambos N–O miden 1.2 Å?', a:'Es híbrido de dos estructuras equivalentes; cada N–O tiene carácter intermedio simple/doble.' },
+ { q:'Definición de isómeros:', a:'Compuestos con igual fórmula molecular pero diferente estructura y propiedades.' },
+ { q:'Tipos y ejemplos de isomería estructural:', a:'Cadena (n-butano/isobutano), posición (1-/2-butanol), función (etanol/éter dimetílico; propanona/propanal).' },
+ { q:'Estereoisómeros y su clasificación:', a:'Igual conectividad, distinta disposición espacial. Conformacionales (rotación C–C) y configuracionales (ópticos y geométricos).' },
+ { q:'Isómeros conformacionales:', a:'Producidos por rotación en torno a enlaces simples C–C; interconvertibles a temperatura ambiente (etano, butano).' },
+ { q:'Enantiómeros vs diastereoisómeros:', a:'Enantiómeros: imágenes especulares no superponibles. Diastereoisómeros: estereoisómeros que no son espejo.' },
+ { q:'¿Cuándo es quiral una molécula?', a:'Cuando no posee ningún centro, eje o plano de simetría (mano, auto, tornillo). La silla es aquiral.' },
+ { q:'Carbono asimétrico (C*):', a:'Carbono sp³ unido a 4 grupos diferentes. Con un solo C*, la molécula es siempre ópticamente activa.' },
+ { q:'Quiralidad sin C*: ejemplos y causa.', a:'Alenos (C central sp → planos perpendiculares) y bifenilos sustituidos (impedimento estérico → no coplanares).' },
+ { q:'Luz plano polarizada y polarímetro:', a:'Luz que vibra en un plano (tras un polarizador). El polarímetro mide el ángulo α girando el analizador.' },
+ { q:'Fórmula de la rotación específica y unidades:', a:'[α]D = α/(l·c); l en dm, c en g/mL; D = 589 nm (línea del Na).' },
+ { q:'Dextrógira vs levógira y ejemplos:', a:'(+) horario: carvona de comino +62.5°, ác. láctico de músculo +2.5°. (−) antihorario: carvona de menta −62.5°, ác. láctico de leche −2.5°.' },
+ { q:'Orden de estabilidad de cationes (ejercicio de clase):', a:'Alílico (resonancia) > primario sin resonancia > vinílico: b > c > a en los equilibrios de ionización.' }
+];
+let fcIndex=0, fcFlipped=false, fcGood=0, fcBad=0, fcDone=false;
+function fcUpdateStats(){
+    document.getElementById('fc-good').textContent=fcGood;
+    document.getElementById('fc-bad').textContent=fcBad;
+    document.getElementById('fc-left').textContent=Math.max(0,flashcards.length-fcIndex);
+    const tg=parseInt(localStorage.getItem('fcTotalGood')||'0',10), tb=parseInt(localStorage.getItem('fcTotalBad')||'0',10);
+    document.getElementById('fc-hist').textContent=tg+' ✓ / '+tb+' ✗';
+    document.getElementById('fc-bar').style.width=(fcIndex/flashcards.length*100)+'%';
+}
+function fcRenderCard(){
+    document.getElementById('fc-card').classList.remove('flipped'); fcFlipped=false;
+    document.getElementById('fc-question').textContent=flashcards[fcIndex].q;
+    document.getElementById('fc-answer').textContent=flashcards[fcIndex].a;
+    document.getElementById('btn-fc-good').disabled=true; document.getElementById('btn-fc-bad').disabled=true;
+    fcUpdateStats();
+}
+function flipCard(){
+    if(fcDone) return;
+    const c=document.getElementById('fc-card'); c.classList.toggle('flipped');
+    fcFlipped=c.classList.contains('flipped');
+    document.getElementById('btn-fc-good').disabled=!fcFlipped;
+    document.getElementById('btn-fc-bad').disabled=!fcFlipped;
+}
+function gradeCard(ok){
+    if(!fcFlipped||fcDone) return;
+    if(ok){ fcGood++; localStorage.setItem('fcTotalGood',String(parseInt(localStorage.getItem('fcTotalGood')||'0',10)+1)); }
+    else { fcBad++; localStorage.setItem('fcTotalBad',String(parseInt(localStorage.getItem('fcTotalBad')||'0',10)+1)); }
+    fcIndex++;
+    if(fcIndex<flashcards.length) { fcRenderCard(); } else { fcFinish(); }
+}
+function fcFinish(){
+    fcDone=true;
+    document.getElementById('fc-scene').style.display='none';
+    document.getElementById('fc-controls').style.display='none';
+    const pct=Math.round(fcGood/(fcGood+fcBad)*100);
+    const msg=pct>=80?'🏆 ¡Excelente! Dominas el capítulo 2.':(pct>=60?'💪 ¡Bien! Repasa las que fallaste.':'📚 Repasa Conceptos, Mapa y Errores Comunes.');
+    const s=document.getElementById('fc-summary');
+    s.innerHTML='<strong>📊 Resumen:</strong> ✅ '+fcGood+' • ❌ '+fcBad+' • Precisión <strong>'+pct+'%</strong><br>'+msg;
+    s.classList.add('show'); fcUpdateStats();
+}
+function resetFlashcards(){
+    fcIndex=0; fcGood=0; fcBad=0; fcDone=false;
+    document.getElementById('fc-scene').style.display='block';
+    document.getElementById('fc-controls').style.display='flex';
+    document.getElementById('fc-summary').classList.remove('show');
+    fcRenderCard();
+}
+function borrarHistorial(){ localStorage.removeItem('fcTotalGood'); localStorage.removeItem('fcTotalBad'); fcUpdateStats(); }
+
+// ================= HERRAMIENTAS =================
+function calcularRotacion(){
+    const a=parseFloat(document.getElementById('rot-alpha').value);
+    const l=parseFloat(document.getElementById('rot-l').value);
+    const c=parseFloat(document.getElementById('rot-c').value);
+    const r=document.getElementById('rotacion-resultado');
+    if(isNaN(a)||!(l>0)||!(c>0)){ r.innerHTML='<span style="color:#f44336;">⚠️ Ingresa valores válidos (l y c mayores que 0).</span>'; r.classList.add('show'); return; }
+    const rot=a/(l*c);
+    const tipo=rot>0?'<strong style="color:#28a745;">Dextrógira (+)</strong>: rota la luz en sentido horario.':(rot<0?'<strong style="color:#dc3545;">Levógira (−)</strong>: rota la luz en sentido antihorario.':'Ópticamente inactiva (0°).');
+    r.innerHTML='<strong>Resultado:</strong><br>[α]ᴅ = <span style="font-size:1.5rem;color:#e94560;font-weight:bold;">'+rot.toFixed(2)+'°</span><br>'+tipo+'<br>Interpretación: valor característico de la muestra a la temperatura y longitud de onda D (589 nm).';
+    r.classList.add('show');
+}
+function calcularHibridacion(){
+    const n=parseInt(document.getElementById('num-enlaces').value);
+    const pi=parseInt(document.getElementById('num-pi').value)||0;
+    const r=document.getElementById('hibridacion-resultado');
+    if(!n||n<1||n>4){ r.innerHTML='<span style="color:#f44336;">⚠️ Ingresa un número válido de átomos enlazados (1-4).</span>'; r.classList.add('show'); return; }
+    let hib,geo,ang,p;
+    if(n===4&&pi===0){hib='sp³';geo='Tetraédrica';ang='109.5°';p=0;}
+    else if(n===3&&pi===1){hib='sp²';geo='Trigonal plana';ang='120°';p=1;}
+    else if(n===2&&pi===2){hib='sp';geo='Lineal';ang='180°';p=2;}
+    else if(n===2&&pi===1){hib='sp²';geo='Trigonal plana';ang='120°';p=1;}
+    else if(n===3&&pi===0){hib='sp³';geo='Tetraédrica';ang='109.5°';p=0;}
+    else {hib='Revisa los datos';geo='—';ang='—';p=0;}
+    const deloc = p>0 ? '✅ Aporta 1 orbital p al sistema: si hay <strong>más de dos orbitales p contiguos y coplanares</strong>, existirá enlace π deslocalizado.' : '⛔ Sin orbital p libre: este carbono no participa en deslocalización π.';
+    r.innerHTML='<strong>Hibridación:</strong> <span style="font-size:1.5rem;color:#e94560;font-weight:bold;">'+hib+'</span><br>Geometría: '+geo+' • Ángulo: '+ang+'<br>Orbitales p sin hibridar: '+p+'<br>'+deloc;
+    r.classList.add('show');
+}
+function isoUpdate(){
+    const f=document.getElementById('iso-f').value, c=document.getElementById('iso-c').value,
+          r=document.getElementById('iso-r').value, d=document.getElementById('iso-d').value;
+    document.getElementById('row-c').style.display=(f==='si')?'block':'none';
+    document.getElementById('row-r').style.display=(f==='si'&&c==='si')?'block':'none';
+    document.getElementById('row-d').style.display=(f==='si'&&c==='si'&&r==='no')?'block':'none';
+    document.getElementById('row-e').style.display=(f==='si'&&c==='si'&&r==='no'&&d==='no')?'block':'none';
+}
+function clasificarIsomeros(){
+    const f=document.getElementById('iso-f').value, c=document.getElementById('iso-c').value,
+          r=document.getElementById('iso-r').value, d=document.getElementById('iso-d').value,
+          e=document.getElementById('iso-e').value;
+    const res=document.getElementById('iso-resultado'); let out='';
+    if(f==='no') out='<strong>NO son isómeros:</strong> tienen diferente fórmula molecular.';
+    else if(f==='si'&&c==='no') out='<strong>Isómeros ESTRUCTURALES:</strong> misma fórmula, distinta conectividad (de cadena, posición o función).';
+    else if(f==='si'&&c==='si'&&r==='si') out='<strong>ESTEREOISÓMEROS CONFORMACIONALES:</strong> interconvertibles por rotación en torno a enlaces C–C (ej.: etano, butano).';
+    else if(f==='si'&&c==='si'&&r==='no'&&d==='si') out='<strong>ESTEREOISÓMEROS CONFIGURACIONALES → ISÓMEROS GEOMÉTRICOS:</strong> producidos por el doble enlace (cis/trans, E/Z).';
+    else if(f==='si'&&c==='si'&&r==='no'&&d==='no'&&e==='si') out='<strong>ESTEREOISÓMEROS CONFIGURACIONALES ÓPTICOS → ENANTIÓMEROS:</strong> imágenes especulares no superponibles.';
+    else if(f==='si'&&c==='si'&&r==='no'&&d==='no'&&e==='no') out='<strong>ESTEREOISÓMEROS CONFIGURACIONALES ÓPTICOS → DIASTEREOISÓMEROS:</strong> no son imágenes especulares entre sí.';
+    else out='<span style="color:#f44336;">⚠️ Completa todas las preguntas del flujograma.</span>';
+    res.innerHTML=out; res.classList.add('show');
+}
+
+// ================= QUIZ (base 30, muestra 10 al azar) =================
+const quizBank = [
+ { question:'¿Cuál es el requisito para que exista un enlace π deslocalizado?', options:['Dos orbitales p cualesquiera','Más de dos orbitales p contiguos y coplanares','Hibridación sp³ en todos los átomos','Presencia de un heteroátomo'], correct:1, explanation:'La deslocalización exige más de dos orbitales p contiguos y coplanares que se solapan lateralmente.' },
+ { question:'En el 1,3-butadieno, los enlaces C–C centrales son:', options:['Simples puros','Dobles puros','Intermedios entre simple y doble','Iónicos'], correct:2, explanation:'La deslocalización hace que los enlaces no sean simples ni dobles, sino intermedios.' },
+ { question:'¿Cuál de estas moléculas NO presenta enlace π deslocalizado?', options:['Benceno','1,3-butadieno','Ciclooctatetraeno','Cloruro de vinilo'], correct:2, explanation:'El ciclooctatetraeno adopta una estructura no planar → sin coplanaridad de orbitales p no hay deslocalización.' },
+ { question:'Una consecuencia directa de la deslocalización π es:', options:['Disminuir la estabilidad','Aumentar la estabilidad y dar órdenes de enlace intermedios','Impedir la resonancia','Aumentar todos los enlaces a 154 pm'], correct:1, explanation:'La deslocalización aumenta la estabilidad y produce longitudes/fortalezas de enlace intermedias.' },
+ { question:'En el benceno, la hibridación de cada carbono y sus orbitales p sin hibridar son:', options:['sp³, ninguno','sp², uno','sp, dos','sp³d, tres'], correct:1, explanation:'Cada C está unido a 3 átomos → sp², y conserva 1 orbital p que forma las nubes π deslocalizadas.' },
+ { question:'El efecto inductivo (I) consiste en el desplazamiento de la densidad electrónica de los enlaces:', options:['π','σ','Metálicos','De hidrógeno'], correct:1, explanation:'El efecto inductivo actúa sobre los enlaces σ, motivado por la diferencia de electronegatividad.' },
+ { question:'En el CH₃–Cl, el cloro ejerce un efecto:', options:['+I (dona densidad σ)','−I (atrae densidad σ)','Electromérico únicamente','Ninguno'], correct:1, explanation:'El Cl, más electronegativo, atrae la densidad σ: C queda δ+ y Cl δ− (efecto −I).' },
+ { question:'El orden de efecto donador +I de los grupos alquilo es:', options:['CH₃ > 1° > 2° > 3°','3° > 2° > 1° > CH₃','1° > 3° > 2° > CH₃','Todos iguales'], correct:1, explanation:'Densidad electrónica: 3° > 2° > 1° > CH₃, según tu material de clase.' },
+ { question:'Según la hibridación, la atracción por los electrones aumenta en el orden:', options:['sp > sp² > sp³','sp³ > sp² > sp','sp² > sp > sp³','sp³ > sp > sp²'], correct:0, explanation:'El carácter s (más interno) atrae más: sp (50%) > sp² (33%) > sp³ (25%).' },
+ { question:'El efecto mesomérico (M) es el desplazamiento de la densidad electrónica:', options:['σ tendiente a crear cargas','π tendiente a contrarrestar cargas','σ de los heteroátomos','π que no afecta las cargas'], correct:1, explanation:'M desplaza la densidad π para contrarrestar las cargas presentes en la molécula.' },
+ { question:'El desplazamiento π adicional favorecido por un medio polar se llama…, y siempre se cumple:', options:['Efecto dinámico; Ie+Id > M+E','Efecto electromérico (E); M+E > Ie+Id','Efecto +I; M = Ie','Efecto estérico; E = Id'], correct:1, explanation:'El medio polar incrementa el desplazamiento π (efecto electromérico); los π son más móviles que los σ: M+E > Ie+Id.' },
+ { question:'En el cloruro de vinilo (H₂C=CH–Cl), el cloro:', options:['Solo atrae densidad σ','Dona su par libre al sistema π por efecto mesomérico (+M)','Rompe el doble enlace','No interactúa con el π'], correct:1, explanation:'El par libre del Cl se conjuga con el C=C: H₂C=CH–Cl ↔ ⁻CH₂–CH=Cl⁺ (enlace π deslocalizado).' },
+ { question:'La resonancia es un método alternativo de la teoría:', options:['Orbitales Moleculares','Enlace de Valencia','Estado de Transición','Arrhenius'], correct:1, explanation:'La resonancia pertenece a la teoría Enlace-Valencia para describir el π deslocalizado.' },
+ { question:'Sobre las estructuras resonantes es cierto que:', options:['Existen y están en equilibrio','No tienen existencia real: la estructura real es el híbrido','Aparecen alternadas en el tiempo','Son idénticas al híbrido'], correct:1, explanation:'Ninguna estructura contribuyente existe: la molécula es el híbrido de resonancia, más estable que todas ellas.' },
+ { question:'Contribuye MÁS al híbrido la estructura con:', options:['Menos enlaces covalentes','Octetos incompletos','Más enlaces covalentes y octetos completos','Cargas muy cercanas'], correct:2, explanation:'Criterios: mayor número de enlaces, octetos completos y cargas ausentes o coherentes con la electronegatividad.' },
+ { question:'Al escribir estructuras resonantes:', options:['Pueden moverse los núcleos','Solo se mueven electrones π, nunca los núcleos','Puede cambiar el número total de electrones','Puede cambiar la geometría'], correct:1, explanation:'Regla de oro: núcleos fijos; solo se redistribuyen electrones π y pares libres, con igual geometría e hibridación.' },
+ { question:'En el nitrometano ambos N–O miden 1.2 Å porque:', options:['El N es sp³','La molécula es híbrido de dos estructuras equivalentes','Existe un enlace iónico','Los H se desplazan'], correct:1, explanation:'Dos estructuras equivalentes contribuyen por igual: cada N–O tiene carácter intermedio simple/doble.' },
+ { question:'Los isómeros son compuestos con:', options:['Distinta fórmula molecular','Igual fórmula molecular y diferente estructura','Igual estructura y diferente fórmula','Igual masa y igual estructura'], correct:1, explanation:'Definición de clase: igual fórmula molecular, diferente estructura y propiedades.' },
+ { question:'El etanol y el éter dimetílico (C₂H₆O) son isómeros de:', options:['Cadena','Posición','Función','Conformación'], correct:2, explanation:'Misma fórmula con funciones distintas (alcohol vs éter): isómeros de función.' },
+ { question:'El n-butano y el isobutano son isómeros de:', options:['Función','Cadena','Posición','Óptica'], correct:1, explanation:'Difieren en el esqueleto carbonado: isómeros de cadena.' },
+ { question:'El 1-butanol y el 2-butanol son isómeros de:', options:['Posición','Función','Cadena','Geométrica'], correct:0, explanation:'Misma función (alcohol) con el OH en distinta posición: isómeros de posición.' },
+ { question:'Los estereoisómeros se diferencian únicamente en:', options:['La conectividad','La disposición espacial de sus átomos','La fórmula molecular','El número de hidrógenos'], correct:1, explanation:'Mismo número y tipo de átomos en el mismo orden; cambia la disposición espacial.' },
+ { question:'Los isómeros conformacionales se producen por:', options:['Rotación en torno a enlaces simples C–C','Ruptura de enlaces π','Dobles enlaces rígidos','Imágenes especulares'], correct:0, explanation:'La rotación del enlace σ genera confórmeros interconvertibles a temperatura ambiente (etano, butano).' },
+ { question:'Los estereoisómeros configuracionales se clasifican en:', options:['Conformacionales y estructurales','Ópticos y geométricos','De cadena y posición','Cis y trans solamente'], correct:1, explanation:'Configuracionales: isómeros ópticos (enantiómeros/diastereoisómeros) y geométricos (doble enlace).' },
+ { question:'Según el flujograma de clase, los isómeros producidos por un doble enlace son:', options:['Enantiómeros','Conformacionales','Geométricos','De función'], correct:2, explanation:'Configuracionales producidos por doble enlace → isómeros geométricos (cis/trans).' },
+ { question:'Los enantiómeros son:', options:['Imágenes especulares superponibles','Imágenes especulares no superponibles','Isómeros de posición','Conformaciones rotadas'], correct:1, explanation:'Como las manos: espejo sí, superposición no. Ej.: (+) y (−) ácido láctico.' },
+ { question:'Una molécula es quiral cuando:', options:['Tiene un plano de simetría','No posee centro, eje ni plano de simetría','Tiene dobles enlaces','Es planar'], correct:1, explanation:'La quiralidad es la ausencia de todo elemento de simetría.' },
+ { question:'Un carbono asimétrico (C*) es un carbono:', options:['sp² con 3 grupos iguales','sp³ unido a 4 grupos diferentes','sp con 2 grupos','Cualquier carbono'], correct:1, explanation:'sp³ con 4 sustituyentes distintos → quiral; con un solo C*, siempre ópticamente activo.' },
+ { question:'La quiralidad SIN carbono asimétrico aparece en:', options:['Alquenos simples','Alenos (C central sp) y bifenilos sustituidos no coplanares','Alcanos ramificados','Alcoholes primarios'], correct:1, explanation:'La falta de coplanaridad (alenos por el C sp; bifenilos por impedimento estérico) genera asimetría.' },
+ { question:'Una sustancia dextrógira en el polarímetro:', options:['Rota la luz antihorario y su [α] es negativa','Rota la luz horario y su [α] es positiva','No rota la luz','Solo rota la luz UV'], correct:1, explanation:'Dextrógira (+): sentido de las agujas del reloj; levógira (−): sentido contrario. [α]D = α/(l·c).' }
+];
+let quizSet=[], qIdx=0, qScore=0, qAnswered=false, cycleDone=false, quizLastSet=[];
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+// Cuenta cuántas preguntas del nuevo sorteo ya estuvieron en el ciclo anterior
+function overlapCount(sel, old){ const s=new Set(old.map(q=>q.question)); return sel.filter(q=>s.has(q.question)).length; }
+
+function startNewCycle(){
+    let sel, tries=0;
+    do { sel=shuffle(quizBank.slice()).slice(0,10); tries++; }
+    while (quizLastSet.length && overlapCount(sel, quizLastSet) > 4 && tries < 30); // garantiza ≥6 preguntas nuevas
+    quizLastSet=sel;
+    quizSet=sel;
+    qIdx=0; qScore=0; qAnswered=false; cycleDone=false;
+    document.getElementById('quiz-result').style.display='none';
+    document.getElementById('quiz-result').classList.remove('show');
+    renderQuestion(); updateQuizHistory();
+}
+function renderQuestion(){
+    const q=quizSet[qIdx];
+    document.getElementById('q-progress-text').textContent='Pregunta '+(qIdx+1)+' de 10 • Aciertos: '+qScore;
+    document.getElementById('q-bar').style.width=(qIdx/10*100)+'%';
+    let html='<div class="quiz-container"><div class="quiz-question">'+(qIdx+1)+'. '+q.question+'</div><div class="quiz-options">';
+    q.options.forEach(function(o,i){ html+='<button class="quiz-option" onclick="checkQuiz('+i+', this)">'+o+'</button>'; });
+    html+='</div><div id="quiz-feedback" style="display:none;margin-top:1rem;padding:1rem;border-radius:8px;color:#2c3e50;"></div>';
+    html+='<div style="text-align:center;margin-top:1.2rem;"><button id="btn-next" class="calc-button" style="display:none;" onclick="nextQuestion()">'+(qIdx===9?'📊 Ver resultados':'➡️ Siguiente pregunta')+'</button></div></div>';
+    document.getElementById('quiz-container').innerHTML=html;
+    qAnswered=false;
+}
+function checkQuiz(i,btn){
+    if(qAnswered) return; qAnswered=true;
+    const q=quizSet[qIdx];
+    const opts=btn.parentElement.querySelectorAll('.quiz-option');
+    opts.forEach(function(o){ o.disabled=true; });
+    const fb=document.getElementById('quiz-feedback');
+    if(i===q.correct){ btn.classList.add('correct'); qScore++;
+        fb.innerHTML='<span style="color:#2e7d32;font-weight:bold;">✅ ¡Correcto!</span><br>'+q.explanation;
+        fb.style.background='#e8f5e9';
+    } else { btn.classList.add('incorrect'); opts[q.correct].classList.add('correct');
+        fb.innerHTML='<span style="color:#c62828;font-weight:bold;">❌ Incorrecto.</span><br>'+q.explanation;
+        fb.style.background='#ffebee';
+    }
+    fb.style.display='block';
+    document.getElementById('q-progress-text').textContent='Pregunta '+(qIdx+1)+' de 10 • Aciertos: '+qScore;
+    document.getElementById('btn-next').style.display='inline-block';
+}
+function nextQuestion(){ if(qIdx<9){ qIdx++; renderQuestion(); } else { finishCycle(); } }
+function finishCycle(){
+    cycleDone=true;
+    document.getElementById('q-bar').style.width='100%';
+    document.getElementById('quiz-container').innerHTML='';
+    const pct=Math.round(qScore*10);
+    let cycles=parseInt(localStorage.getItem('q2_cycles')||'0',10)+1;
+    const best=Math.max(parseInt(localStorage.getItem('q2_best')||'0',10),pct);
+    const totC=parseInt(localStorage.getItem('q2_totC')||'0',10)+qScore;
+    const totQ=parseInt(localStorage.getItem('q2_totQ')||'0',10)+10;
+    localStorage.setItem('q2_cycles',String(cycles)); localStorage.setItem('q2_best',String(best));
+    localStorage.setItem('q2_totC',String(totC)); localStorage.setItem('q2_totQ',String(totQ));
+    const msg=pct>=80?'🏆 ¡Excelente! Dominas el Capítulo 2.':(pct>=60?'💪 ¡Bien! Repasa los temas fallados en Conceptos y Errores Comunes.':'📚 Necesitas repasar: usa Mapa, Flashcards y Aplicaciones antes del próximo ciclo.');
+    const r=document.getElementById('quiz-result');
+    r.innerHTML='<strong>📊 Resultados del ciclo:</strong> '+qScore+'/10 correctas • <strong style="color:#e94560;">'+pct+'%</strong><br>'+msg+'<br><br>🔄 Pulsa “Reiniciar Quiz” o vuelve a entrar al Quiz para un <strong>nuevo ciclo con preguntas aleatorias</strong>.';
+    r.style.display='block'; r.classList.add('show');
+    document.getElementById('q-progress-text').textContent='Ciclo completado • Aciertos: '+qScore+'/10';
+    updateQuizHistory();
+}
+function updateQuizHistory(){
+    const cycles=parseInt(localStorage.getItem('q2_cycles')||'0',10);
+    const best=parseInt(localStorage.getItem('q2_best')||'0',10);
+    const totC=parseInt(localStorage.getItem('q2_totC')||'0',10);
+    const totQ=parseInt(localStorage.getItem('q2_totQ')||'0',10);
+    document.getElementById('q-history').innerHTML='📈 Ciclos: <strong>'+cycles+'</strong> | Mejor: <strong>'+best+'%</strong> | Promedio histórico: <strong>'+(totQ?Math.round(totC/totQ*100):0)+'%</strong>';
+}
+
+// ================= INICIALIZACIÓN =================
+document.addEventListener('DOMContentLoaded', function(){
+    startNewCycle();   // 10 preguntas al azar al cargar la página
+    fcRenderCard();
+});
+</script>
+</body>
+</html>
